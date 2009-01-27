@@ -7,10 +7,6 @@ module ClassyResources
     resource.to_s.singularize.classify.constantize
   end
 
-  def load_collection(resource)
-    class_for(resource).all
-  end
-
   def define_resource(*options)
     ResourceBuilder.new(self, *options)
   end
@@ -31,24 +27,8 @@ module ClassyResources
     content_type Mime.const_get(format.to_s.upcase).to_s
   end
 
-  def create_object(resource, params)
-    class_for(resource).create!(params)
-  end
-
-  def find_object(resource, id)
-    class_for(resource).find(id)
-  end
-
   def serialize(object, format)
     object.send(:"to_#{format}")
-  end
-  
-  def update_object(object, params)
-    object.update_attributes(params)
-  end
-
-  def destroy_object(object)
-    object.destroy
   end
 
   class ResourceBuilder

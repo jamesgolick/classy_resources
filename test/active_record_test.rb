@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/test_helper'
 require 'sinatra'
 require 'sinatra/test/unit'
-require File.dirname(__FILE__) + '/fixtures/test_app'
+require File.dirname(__FILE__) + '/fixtures/active_record_test_app'
 
-class ClassyResourcesTest < Test::Unit::TestCase
+class ActiveRecordTest < Test::Unit::TestCase
   context "on GET to /posts with xml" do
     setup do
       2.times { create_post }
