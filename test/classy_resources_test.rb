@@ -52,4 +52,18 @@ class ClassyResourcesTest < Test::Unit::TestCase
       assert_equal "Changed!", @post.reload.title
     end
   end
+
+  context "on DELETE to /posts/id" do
+    setup do
+      @post = create_post
+      delete "/posts/#{@post.id}.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+
+    should "destroy the post" do
+      assert_nil Post.find_by_id(@post)
+    end
+  end
 end

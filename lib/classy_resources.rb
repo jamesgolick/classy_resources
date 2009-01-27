@@ -47,6 +47,10 @@ module ClassyResources
     object.update_attributes(params)
   end
 
+  def destroy_object(object)
+    object.destroy
+  end
+
   class ResourceBuilder
     attr_reader :resources, :options, :main, :formats
 
@@ -101,6 +105,15 @@ module ClassyResources
           object = find_object(resource, params[:id])
           update_object(object, params[resource.to_s.singularize])
           serialize(object, format)
+        end
+      end
+
+      def define_member_delete(resource, format)
+        delete object_route_url(resource, format) do
+          set_content_type(format)
+          object = find_object(resource, params[:id])
+          destroy_object(object)
+          ""
         end
       end
   end
