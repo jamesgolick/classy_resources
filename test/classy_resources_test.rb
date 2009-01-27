@@ -26,4 +26,15 @@ class ClassyResourcesTest < Test::Unit::TestCase
     expect { assert_equal "whatever", Post.first.title }
     expect { assert_equal "application/xml", @response.content_type }
   end
+
+  context "on GET to /posts/id" do
+    setup do
+      @post = create_post
+      get "/posts/#{@post.id}.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal @post.to_xml, @response.body }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
 end

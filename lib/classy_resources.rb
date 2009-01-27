@@ -19,6 +19,10 @@ module ClassyResources
     "/#{resource}.#{format}" 
   end
 
+  def object_route_url(resource, format)
+    "/#{resource}/:id.#{format}"
+  end
+
   def object_url_for(resource, format, object)
     "/#{resource}/#{object.id}.#{format}"
   end
@@ -29,6 +33,10 @@ module ClassyResources
 
   def create_object(resource, params)
     class_for(resource).create!(params)
+  end
+
+  def find_object(resource, id)
+    class_for(resource).find(id)
   end
 
   class ResourceBuilder
@@ -46,18 +54,16 @@ module ClassyResources
     def build!
       resources.each do |r|
         [*formats].each do |f|
-          [*options[:collection]].each do |m|
-            define_collection(m, r, f)
+          [:member, :collection].each do |t|
+            [*options[t]].each do |v|
+              send(:"define_#{t}_#{v}", r, f)
+            end
           end
         end
       end
     end
 
     protected
-      def define_collection(method, resource, format)
-        send(:"define_collection_#{method}", resource, format)
-      end
-
       def define_collection_get(resource, format)
         get collection_url_for(resource, format) do
           set_content_type(format)
@@ -70,6 +76,14 @@ module ClassyResources
           set_content_type(format)
           object = create_object(resource, params[resource.to_s.singularize])
           redirect object_url_for(resource, format, object)
+        end
+      end
+
+      def define_member_get(resource, format)
+        get object_route_url(resource, format) do
+          set_content_type(format)
+          object = find_object(resource, params[:id])
+          object.send(:"to_#{format}")
         end
       end
   end
