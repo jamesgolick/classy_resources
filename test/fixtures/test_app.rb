@@ -1,4 +1,4 @@
 require 'rubygems'
 require 'sinatra'
 
-define_resource :posts, :collection => :get
+define_resource :posts, :collection => [:get, :post]

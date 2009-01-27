@@ -15,6 +15,22 @@ module ClassyResources
     ResourceBuilder.new(self, *options)
   end
 
+  def collection_url_for(resource, format)
+    "/#{resource}.#{format}" 
+  end
+
+  def object_url_for(resource, format, object)
+    "/#{resource}/#{object.id}.#{format}"
+  end
+
+  def set_content_type(format)
+    content_type Mime.const_get(format.to_s.upcase).to_s
+  end
+
+  def create_object(resource, params)
+    class_for(resource).create!(params)
+  end
+
   class ResourceBuilder
     attr_reader :resources, :options, :main, :formats
 
@@ -43,9 +59,17 @@ module ClassyResources
       end
 
       def define_collection_get(resource, format)
-        get "/#{resource}.#{format}" do
-          content_type Mime.const_get(format.to_s.upcase).to_s
+        get collection_url_for(resource, format) do
+          set_content_type(format)
           load_collection(resource).send(:"to_#{format}")
+        end
+      end
+      
+      def define_collection_post(resource, format)
+        post collection_url_for(resource, format) do
+          set_content_type(format)
+          object = create_object(resource, params[resource.to_s.singularize])
+          redirect object_url_for(resource, format, object)
         end
       end
   end
