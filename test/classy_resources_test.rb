@@ -37,4 +37,19 @@ class ClassyResourcesTest < Test::Unit::TestCase
     expect { assert_equal @post.to_xml, @response.body }
     expect { assert_equal "application/xml", @response.content_type }
   end
+
+  context "on PUT to /posts/id" do
+    setup do
+      @post = create_post
+      put "/posts/#{@post.id}.xml", :post => {:title => "Changed!"}
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal @post.reload.to_xml, @response.body }
+    expect { assert_equal "application/xml", @response.content_type }
+
+    should "update the post" do
+      assert_equal "Changed!", @post.reload.title
+    end
+  end
 end

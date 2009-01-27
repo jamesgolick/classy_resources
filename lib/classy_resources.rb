@@ -39,6 +39,14 @@ module ClassyResources
     class_for(resource).find(id)
   end
 
+  def serialize(object, format)
+    object.send(:"to_#{format}")
+  end
+  
+  def update_object(object, params)
+    object.update_attributes(params)
+  end
+
   class ResourceBuilder
     attr_reader :resources, :options, :main, :formats
 
@@ -67,7 +75,7 @@ module ClassyResources
       def define_collection_get(resource, format)
         get collection_url_for(resource, format) do
           set_content_type(format)
-          load_collection(resource).send(:"to_#{format}")
+          serialize(load_collection(resource), format)
         end
       end
       
@@ -83,7 +91,16 @@ module ClassyResources
         get object_route_url(resource, format) do
           set_content_type(format)
           object = find_object(resource, params[:id])
-          object.send(:"to_#{format}")
+          serialize(object, format)
+        end
+      end
+
+      def define_member_put(resource, format)
+        put object_route_url(resource, format) do
+          set_content_type(format)
+          object = find_object(resource, params[:id])
+          update_object(object, params[resource.to_s.singularize])
+          serialize(object, format)
         end
       end
   end
