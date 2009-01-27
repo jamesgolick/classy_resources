@@ -54,11 +54,11 @@ module ClassyResources
   class ResourceBuilder
     attr_reader :resources, :options, :main, :formats
 
-    def initialize(main, *options)
+    def initialize(main, *args)
       @main      = main
-      @options   = options.pop if options.last.is_a?(Hash)
-      @resources = options
-      @formats   = :xml
+      @options   = args.pop if args.last.is_a?(Hash)
+      @resources = args
+      @formats   = options[:formats] || :xml
 
       build!
     end
