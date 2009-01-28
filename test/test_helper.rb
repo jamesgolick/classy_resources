@@ -10,4 +10,10 @@ class Test::Unit::TestCase
     def create_post(opts = {})
       Post.create!({}.merge(opts))
     end
+
+    def create_user(opts = {})
+      u = User.new({}.merge(opts))
+      u.save
+      u
+    end
 end

@@ -48,7 +48,7 @@ module ClassyResources
         [*formats].each do |f|
           [:member, :collection].each do |t|
             [*options[t]].each do |v|
-              send(:"define_#{t}_#{v}", r, f)
+              send(:"define_#{t}_#{v}", r, f) unless v.nil?
             end
           end
         end
