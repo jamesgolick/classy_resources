@@ -48,4 +48,18 @@ class SequelTest < Test::Unit::TestCase
       assert_equal "Changed!", @user.reload.name
     end
   end
+
+  context "on DELETE to /users/id" do
+    setup do
+      @user = create_user
+      delete "/users/#{@user.id}.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+
+    should "destroy the user" do
+      assert_nil User.find(:id => @user.id)
+    end
+  end
 end

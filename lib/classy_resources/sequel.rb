@@ -15,6 +15,10 @@ module ClassyResources
     def update_object(object, params)
       object.update(params)
     end
+
+    def destroy_object(object)
+      object.destroy
+    end
   end
 end
 
