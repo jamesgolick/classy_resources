@@ -7,6 +7,14 @@ module ClassyResources
     def create_object(resource, params)
       class_for(resource).create(params)
     end
+
+    def find_object(resource, id)
+      class_for(resource).find(:id => id)
+    end
+
+    def update_object(object, params)
+      object.update(params)
+    end
   end
 end
 

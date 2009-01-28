@@ -33,4 +33,19 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "whatever", User.first.name }
     expect { assert_equal "application/xml", @response.content_type }
   end
+
+  context "on PUT to /users/id" do
+    setup do
+      @user = create_user
+      put "/users/#{@user.id}.xml", :user => {:name => "Changed!"}
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal @user.reload.to_xml, @response.body }
+    expect { assert_equal "application/xml", @response.content_type }
+
+    should "update the user" do
+      assert_equal "Changed!", @user.reload.name
+    end
+  end
 end
