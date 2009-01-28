@@ -70,9 +70,10 @@ module ClassyResources
       end
       
       def define_collection_post(resource, format)
-        post collection_url_for(resource, format) do
+        parent = options[:parent]
+        post collection_url_for(resource, format, parent) do
           set_content_type(format)
-          object = create_object(resource, params[resource.to_s.singularize])
+          object = create_object(resource, params[resource.to_s.singularize], parent)
           redirect object_url_for(resource, format, object)
         end
       end

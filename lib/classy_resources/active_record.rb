@@ -9,11 +9,23 @@ module ClassyResources
     end
 
     def load_parent_collection(resource, parent)
-      find_object(parent, params[parent_id_name(parent)]).send(resource)
+      load_parent_object(parent).send(resource)
     end
 
-    def create_object(resource, params)
+    def load_parent_object(parent)
+      find_object(parent, params[parent_id_name(parent)])
+    end
+
+    def create_object(resource, params, parent = nil)
+      parent.nil? ? create_normal_object(resource, params) : create_nested_object(resource, params, parent)
+    end
+
+    def create_normal_object(resource, params)
       class_for(resource).create!(params)
+    end
+
+    def create_nested_object(resource, params, parent)
+      load_parent_object(parent).send(resource).create!(params)
     end
 
     def find_object(resource, id)

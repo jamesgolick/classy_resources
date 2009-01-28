@@ -90,4 +90,16 @@ class ActiveRecordTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert_equal @post.comments.to_xml, @response.body }
   end
+
+  context "on POST to /posts/id/comments" do
+    setup do
+      @post = create_post
+      post "/posts/#{@post.id}/comments.xml", :comment => hash_for_comment
+    end
+
+    expect { assert_equal 302, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
+    expect { assert_equal 1, @post.comments.reload.count }
+  end
 end
