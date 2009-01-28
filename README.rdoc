@@ -2,6 +2,10 @@
 
 Think resource_controller, except for Sinatra.
 
+= Installation
+
+  sudo gem install giraffesoft-classy_resources
+
 = Usage
 
   require 'rubygems'
