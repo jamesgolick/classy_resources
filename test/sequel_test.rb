@@ -98,4 +98,13 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "/subscriptions/#{@user.reload.subscriptions.first.id}.xml", @response.location }
     expect { assert_equal 1, @user.reload.subscriptions.length }
   end
+
+  context "on POST to /users/id/subscriptions with no params" do
+    should "not raise" do
+      @user = create_user
+      assert_nothing_raised {
+        post "/users/#{@user.id}/subscriptions.xml", :subscription => {}
+      }
+    end
+  end
 end
