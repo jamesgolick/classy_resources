@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{classy_resources}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Golick"]
-  s.date = %q{2009-01-27}
+  s.date = %q{2009-01-28}
   s.description = %q{TODO}
   s.email = %q{james@giraffesoft.ca}
   s.files = ["README.rdoc", "VERSION.yml", "lib/classy_resources", "lib/classy_resources/active_record.rb", "lib/classy_resources/mime_type.rb", "lib/classy_resources/sequel.rb", "lib/classy_resources.rb", "test/active_record_test.rb", "test/fixtures", "test/fixtures/active_record_test_app.rb", "test/fixtures/sequel_test_app.rb", "test/sequel_test.rb", "test/test_helper.rb"]
