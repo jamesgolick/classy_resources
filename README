@@ -1,9 +1,29 @@
-classy_resources
-================
+= Classy Resources
 
-Description goes here.
+Think resource_controller, except for sinatra.
 
-COPYRIGHT
-=========
+= Usage
 
-Copyright (c) 2008 James Golick. See LICENSE for details.
+  require 'rubygems'
+  require 'sinatra'
+  require 'classy_resources'
+  require 'classy_resources/active_record'
+  # ... or require 'classy_resources/sequel'
+
+  define_resource :posts, :member     => [:get, :put, :delete],
+                          :collection => [:get, :post],
+                          :formats    => [:xml, :json, :yaml]
+
+The above declaration will create the five actions specified, each responding to all of the formats listed.
+  
+  - GET /resources.format      # => index
+  - POST /resources.format     # => create
+  - GET /resources/1.format    # => show
+  - PUT /resources/1.format    # => update
+  - DELETE /resources/1.format # => destroy
+
+Since ClassyResources was designed to be active resource compatible, the params formats and return values are what AR expects.
+
+== Copyright
+
+Copyright (c) 2008 James Golick, Daniel Haran, GiraffeSoft Inc.. See LICENSE for details.
