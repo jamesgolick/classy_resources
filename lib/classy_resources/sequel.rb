@@ -1,6 +1,6 @@
 module ClassyResources
   module Sequel
-    def load_collection(resources)
+    def load_collection(resources, parent=nil)
       class_for(resources).all
     end
 

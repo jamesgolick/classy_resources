@@ -77,4 +77,17 @@ class ActiveRecordTest < Test::Unit::TestCase
       assert_nil Post.find_by_id(@post)
     end
   end
+
+  context "on GET to /posts/id/comments" do
+    setup do
+      @post = create_post
+      2.times { @post.comments.create!(hash_for_comment) }
+      2.times { create_comment }
+      get "/posts/#{@post.id}/comments.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal @post.comments.to_xml, @response.body }
+  end
 end

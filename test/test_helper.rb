@@ -11,6 +11,14 @@ class Test::Unit::TestCase
       Post.create!({}.merge(opts))
     end
 
+    def hash_for_comment(opts = {})
+      {}.merge(opts)
+    end
+
+    def create_comment(opts = {})
+      Comment.create!(hash_for_comment(opts))
+    end
+
     def create_user(opts = {})
       u = User.new({}.merge(opts))
       u.save

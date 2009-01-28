@@ -14,12 +14,26 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :posts do |t|
     t.string :title
   end
+
+  create_table :comments do |t|
+    t.integer :post_id
+    t.string :author
+  end
 end
 
 class Post < ActiveRecord::Base
+  has_many :comments
+end
+
+class Comment < ActiveRecord::Base
+  belongs_to :post
 end
 
 
 define_resource :posts, :collection => [:get, :post],
                         :member     => [:get, :put, :delete],
                         :formats    => [:xml, :json]
+
+define_resource :comments, :collection => [:get],
+                           :parent     => :posts
+

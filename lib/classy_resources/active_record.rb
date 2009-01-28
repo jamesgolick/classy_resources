@@ -1,7 +1,15 @@
 module ClassyResources
   module ActiveRecord
-    def load_collection(resource)
+    def load_collection(resource, parent = nil)
+      parent.nil? ? load_normal_collection(resource) : load_parent_collection(resource, parent)
+    end
+
+    def load_normal_collection(resource)
       class_for(resource).all
+    end
+
+    def load_parent_collection(resource, parent)
+      find_object(parent, params[parent_id_name(parent)]).send(resource)
     end
 
     def create_object(resource, params)

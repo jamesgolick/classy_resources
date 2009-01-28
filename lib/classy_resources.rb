@@ -11,8 +11,13 @@ module ClassyResources
     ResourceBuilder.new(self, *options)
   end
 
-  def collection_url_for(resource, format)
-    "/#{resource}.#{format}" 
+  def parent_id_name(parent)
+    :"#{parent.to_s.singularize}_id"
+  end
+
+  def collection_url_for(resource, format, parent = nil)
+    parent = parent.nil? ? "" : "/#{parent}/:#{parent_id_name(parent)}"
+    [parent, "/#{resource}.#{format}"].join
   end
 
   def object_route_url(resource, format)
@@ -57,9 +62,10 @@ module ClassyResources
 
     protected
       def define_collection_get(resource, format)
-        get collection_url_for(resource, format) do
+        parent = options[:parent]
+        get collection_url_for(resource, format, parent) do
           set_content_type(format)
-          serialize(load_collection(resource), format)
+          serialize(load_collection(resource, parent), format)
         end
       end
       
