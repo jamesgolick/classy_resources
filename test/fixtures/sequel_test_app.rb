@@ -15,4 +15,4 @@ end
 class User < Sequel::Model(:users)
 end
 
-define_resource :users, :collection => :get
+define_resource :users, :collection => [:get, :post]

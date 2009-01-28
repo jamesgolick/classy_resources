@@ -21,4 +21,16 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal User.all.to_xml, @response.body }
     expect { assert_equal "application/xml", @response.content_type }
   end
+
+  context "on POST to /users" do
+    setup do
+      User.destroy_all
+      post '/users.xml', :user => {:name => "whatever"}
+    end
+
+    expect { assert_equal 302, @response.status }
+    expect { assert_equal "/users/#{User.first.id}.xml", @response.location }
+    expect { assert_equal "whatever", User.first.name }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
 end
