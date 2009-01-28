@@ -24,6 +24,7 @@ end
 
 class Subscription < Sequel::Model(:subscriptions)
   many_to_one :users
+  validates_presence_of :user_id
 end
 
 define_resource :users, :collection => [:get, :post],

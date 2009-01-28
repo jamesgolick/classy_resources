@@ -77,8 +77,8 @@ class SequelTest < Test::Unit::TestCase
   context "on GET to /users/id/comments" do
     setup do
       @user = create_user
-      2.times { @user.add_subscription(create_subscription) }
-      2.times { create_subscription }
+      2.times { @user.add_subscription(Subscription.new(hash_for_subscription)) }
+      2.times { create_subscription(:user_id => 9) }
       get "/users/#{@user.id}/subscriptions.xml"
     end
 
