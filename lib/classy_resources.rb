@@ -81,7 +81,7 @@ module ClassyResources
       def define_member_get(resource, format)
         get object_route_url(resource, format) do
           set_content_type(format)
-          object = find_object(resource, params[:id])
+          object = load_object(resource, params[:id])
           serialize(object, format)
         end
       end
@@ -89,7 +89,7 @@ module ClassyResources
       def define_member_put(resource, format)
         put object_route_url(resource, format) do
           set_content_type(format)
-          object = find_object(resource, params[:id])
+          object = load_object(resource, params[:id])
           update_object(object, params[resource.to_s.singularize])
           serialize(object, format)
         end
@@ -98,7 +98,7 @@ module ClassyResources
       def define_member_delete(resource, format)
         delete object_route_url(resource, format) do
           set_content_type(format)
-          object = find_object(resource, params[:id])
+          object = load_object(resource, params[:id])
           destroy_object(object)
           ""
         end

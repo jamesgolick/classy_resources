@@ -13,7 +13,7 @@ module ClassyResources
     end
 
     def load_parent_object(parent)
-      find_object(parent, params[parent_id_name(parent)])
+      load_object(parent, params[parent_id_name(parent)])
     end
 
     def create_object(resource, params, parent = nil)
@@ -28,7 +28,7 @@ module ClassyResources
       load_parent_object(parent).send(resource).create!(params)
     end
 
-    def find_object(resource, id)
+    def load_object(resource, id)
       class_for(resource).find(id)
     end
 
