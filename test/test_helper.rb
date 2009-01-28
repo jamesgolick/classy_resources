@@ -24,4 +24,14 @@ class Test::Unit::TestCase
       u.save
       u
     end
+
+    def hash_for_subscription(opts = {})
+      {}.merge(opts)
+    end
+
+    def create_subscription(opts = {})
+      s = Subscription.new(hash_for_subscription(opts))
+      s.save
+      s
+    end
 end

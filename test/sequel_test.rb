@@ -73,4 +73,29 @@ class SequelTest < Test::Unit::TestCase
       assert_nil User.find(:id => @user.id)
     end
   end
+
+  context "on GET to /users/id/comments" do
+    setup do
+      @user = create_user
+      2.times { @user.add_subscription(create_subscription) }
+      2.times { create_subscription }
+      get "/users/#{@user.id}/subscriptions.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal @user.subscriptions.to_xml, @response.body }
+  end
+
+  #context "on POST to /posts/id/comments" do
+  #  setup do
+  #    @post = create_post
+  #    post "/posts/#{@post.id}/comments.xml", :comment => hash_for_comment
+  #  end
+
+  #  expect { assert_equal 302, @response.status }
+  #  expect { assert_equal "application/xml", @response.content_type }
+  #  expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
+  #  expect { assert_equal 1, @post.comments.reload.count }
+  #end
 end

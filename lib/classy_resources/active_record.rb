@@ -1,9 +1,5 @@
 module ClassyResources
   module ActiveRecord
-    def load_collection(resource, parent = nil)
-      parent.nil? ? load_shallow_collection(resource) : load_nested_collection(resource, parent)
-    end
-
     def load_shallow_collection(resource)
       class_for(resource).all
     end

@@ -11,6 +11,10 @@ module ClassyResources
     ResourceBuilder.new(self, *options)
   end
 
+  def load_collection(resource, parent = nil)
+    parent.nil? ? load_shallow_collection(resource) : load_nested_collection(resource, parent)
+  end
+
   def parent_id_name(parent)
     :"#{parent.to_s.singularize}_id"
   end
