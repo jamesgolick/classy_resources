@@ -9,6 +9,7 @@ Think resource_controller, except for Sinatra.
   require 'classy_resources'
   require 'classy_resources/active_record'
   # ... or require 'classy_resources/sequel'
+  # more ORMs coming (it's also easy to implement your own)...
 
   define_resource :posts, :member     => [:get, :put, :delete],
                           :collection => [:get, :post],
