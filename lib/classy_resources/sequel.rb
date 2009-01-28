@@ -5,11 +5,16 @@ module ClassyResources
     end
 
     def load_nested_collection(resource, parent)
-      load_object(parent, params[parent_id_name(parent)]).send(resource)
+      load_parent_object(parent).send(resource)
     end
 
-    def create_object(resource, params, parent)
-      class_for(resource).create(params)
+    def create_shallow_object(resource, object_params)
+      class_for(resource).create(object_params)
+    end
+
+    def create_nested_object(resource, object_params, parent)
+      c = create_shallow_object(resource, object_params)
+      load_parent_object(parent).send(:"add_#{resource.to_s.singularize}", c)
     end
 
     def load_object(resource, id)

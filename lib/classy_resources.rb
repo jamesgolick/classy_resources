@@ -15,6 +15,14 @@ module ClassyResources
     parent.nil? ? load_shallow_collection(resource) : load_nested_collection(resource, parent)
   end
 
+  def create_object(resource, object_params, parent = nil)
+    parent.nil? ? create_shallow_object(resource, object_params) : create_nested_object(resource, object_params, parent)
+  end
+
+  def load_parent_object(parent)
+    load_object(parent, params[parent_id_name(parent)])
+  end
+
   def parent_id_name(parent)
     :"#{parent.to_s.singularize}_id"
   end

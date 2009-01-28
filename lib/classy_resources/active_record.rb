@@ -8,14 +8,6 @@ module ClassyResources
       load_parent_object(parent).send(resource)
     end
 
-    def load_parent_object(parent)
-      load_object(parent, params[parent_id_name(parent)])
-    end
-
-    def create_object(resource, params, parent = nil)
-      parent.nil? ? create_shallow_object(resource, params) : create_nested_object(resource, params, parent)
-    end
-
     def create_shallow_object(resource, params)
       class_for(resource).create!(params)
     end

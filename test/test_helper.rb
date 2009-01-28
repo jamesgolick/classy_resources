@@ -26,7 +26,7 @@ class Test::Unit::TestCase
     end
 
     def hash_for_subscription(opts = {})
-      {}.merge(opts)
+      {:name => "emptiness is depressing"}.merge(opts)
     end
 
     def create_subscription(opts = {})
