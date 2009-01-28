@@ -34,6 +34,17 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
   end
 
+  context "on GET to /users/id" do
+    setup do
+      @user = create_user
+      get "/users/#{@user.id}.xml"
+    end
+
+    expect { assert_equal 200, @response.status }
+    expect { assert_equal @user.to_xml, @response.body }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
+
   context "on PUT to /users/id" do
     setup do
       @user = create_user

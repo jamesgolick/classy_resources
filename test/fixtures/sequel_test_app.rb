@@ -16,4 +16,4 @@ class User < Sequel::Model(:users)
 end
 
 define_resource :users, :collection => [:get, :post],
-                        :member     => [:put, :delete]
+                        :member     => [:put, :delete, :get]
