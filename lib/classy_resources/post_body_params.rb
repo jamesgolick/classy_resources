@@ -20,6 +20,7 @@ module ClassyResources
     # Supported Content-Types
     #
     APPLICATION_JSON = 'application/json'.freeze
+    APPLICATION_XML  = 'application/xml'.freeze
     
     def initialize(app)
       @app = app
@@ -29,6 +30,8 @@ module ClassyResources
       case env[CONTENT_TYPE]
       when APPLICATION_JSON
         env.update(FORM_HASH => JSON.parse(env[POST_BODY].read), FORM_INPUT => env[POST_BODY])
+      when APPLICATION_XML
+        env.update(FORM_HASH => Hash.from_xml(env[POST_BODY].read), FORM_INPUT => env[POST_BODY])
       end
       @app.call(env)
     end

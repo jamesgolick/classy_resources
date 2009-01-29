@@ -116,4 +116,18 @@ class ActiveRecordTest < Test::Unit::TestCase
     expect { assert_equal 1, @post.comments.reload.count }
     expect { assert_equal 'james', @post.comments.first.author }
   end
+
+  context "on POST to /posts/id/comments with a XML post body" do
+    setup do
+      @post = create_post
+      post "/posts/#{@post.id}/comments.xml", Comment.new(:author => 'james').to_xml,
+                                              :content_type => 'application/xml'
+    end
+
+    expect { assert_equal 302, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
+    expect { assert_equal 1, @post.comments.reload.count }
+    expect { assert_equal 'james', @post.comments.first.author }
+  end
 end
