@@ -102,4 +102,18 @@ class ActiveRecordTest < Test::Unit::TestCase
     expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
     expect { assert_equal 1, @post.comments.reload.count }
   end
+
+  context "on POST to /posts/id/comments with a JSON post body" do
+    setup do
+      @post = create_post
+      post "/posts/#{@post.id}/comments.xml", {:comment => hash_for_comment(:author => 'james')}.to_json,
+                                              :content_type => 'application/json'
+    end
+
+    expect { assert_equal 302, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
+    expect { assert_equal 1, @post.comments.reload.count }
+    expect { assert_equal 'james', @post.comments.first.author }
+  end
 end

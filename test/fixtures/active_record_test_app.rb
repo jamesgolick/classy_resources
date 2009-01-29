@@ -37,3 +37,5 @@ define_resource :posts, :collection => [:get, :post],
 define_resource :comments, :collection => [:get, :post],
                            :parent     => :posts
 
+use ClassyResources::PostBodyParams
+
