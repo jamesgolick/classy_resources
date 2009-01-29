@@ -87,7 +87,10 @@ module ClassyResources
         post collection_url_for(resource, format, parent) do
           set_content_type(format)
           object = create_object(resource, params[resource.to_s.singularize] || {}, parent)
-          redirect object_url_for(resource, format, object)
+
+          response['location'] = object_url_for(resource, format, object)
+          response.status      = 201
+          serialize(object, format)
         end
       end
 

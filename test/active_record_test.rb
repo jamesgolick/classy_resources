@@ -32,10 +32,11 @@ class ActiveRecordTest < Test::Unit::TestCase
       post '/posts.xml', :post => {:title => "whatever"}
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "/posts/#{Post.first.id}.xml", @response.location }
     expect { assert_equal "whatever", Post.first.title }
     expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal Post.first.to_xml, @response.body }
   end
 
   context "on GET to /posts/id" do
@@ -93,14 +94,16 @@ class ActiveRecordTest < Test::Unit::TestCase
 
   context "on POST to /posts/id/comments" do
     setup do
+      Comment.destroy_all
       @post = create_post
       post "/posts/#{@post.id}/comments.xml", :comment => hash_for_comment
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
     expect { assert_equal 1, @post.comments.reload.count }
+    expect { assert_equal Comment.first.to_xml, @response.body }
   end
 
   context "on POST to /posts/id/comments with a JSON post body" do
@@ -110,7 +113,7 @@ class ActiveRecordTest < Test::Unit::TestCase
                                               :content_type => 'application/json'
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
     expect { assert_equal 1, @post.comments.reload.count }
@@ -124,7 +127,7 @@ class ActiveRecordTest < Test::Unit::TestCase
                                               :content_type => 'application/xml'
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert_equal "/comments/#{@post.comments.reload.first.id}.xml", @response.location }
     expect { assert_equal 1, @post.comments.reload.count }

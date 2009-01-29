@@ -28,7 +28,7 @@ class SequelTest < Test::Unit::TestCase
       post '/users.xml', :user => {:name => "whatever"}
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "/users/#{User.first.id}.xml", @response.location }
     expect { assert_equal "whatever", User.first.name }
     expect { assert_equal "application/xml", @response.content_type }
@@ -93,7 +93,7 @@ class SequelTest < Test::Unit::TestCase
       post "/users/#{@user.id}/subscriptions.xml", :subscription => hash_for_subscription
     end
 
-    expect { assert_equal 302, @response.status }
+    expect { assert_equal 201, @response.status }
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert_equal "/subscriptions/#{@user.reload.subscriptions.first.id}.xml", @response.location }
     expect { assert_equal 1, @user.reload.subscriptions.length }
