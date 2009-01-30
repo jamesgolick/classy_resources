@@ -12,25 +12,8 @@ module ClassyResources
     ResourceBuilder.new(self, *options)
   end
 
-  def load_collection(resource, parent = nil)
-    parent.nil? ? load_shallow_collection(resource) : load_nested_collection(resource, parent)
-  end
-
-  def create_object(resource, object_params, parent = nil)
-    parent.nil? ? create_shallow_object(resource, object_params) : create_nested_object(resource, object_params, parent)
-  end
-
-  def load_parent_object(parent)
-    load_object(parent, params[parent_id_name(parent)])
-  end
-
-  def parent_id_name(parent)
-    :"#{parent.to_s.singularize}_id"
-  end
-
-  def collection_url_for(resource, format, parent = nil)
-    parent = parent.nil? ? "" : "/#{parent}/:#{parent_id_name(parent)}"
-    [parent, "/#{resource}.#{format}"].join
+  def collection_url_for(resource, format)
+    "/#{resource}.#{format}"
   end
 
   def object_route_url(resource, format)
@@ -75,18 +58,16 @@ module ClassyResources
 
     protected
       def define_collection_get(resource, format)
-        parent = options[:parent]
-        get collection_url_for(resource, format, parent) do
+        get collection_url_for(resource, format) do
           set_content_type(format)
-          serialize(load_collection(resource, parent), format)
+          serialize(load_collection(resource), format)
         end
       end
       
       def define_collection_post(resource, format)
-        parent = options[:parent]
-        post collection_url_for(resource, format, parent) do
+        post collection_url_for(resource, format) do
           set_content_type(format)
-          object = create_object(resource, params[resource.to_s.singularize] || {}, parent)
+          object = create_object(resource, params[resource.to_s.singularize] || {})
 
           response['location'] = object_url_for(resource, format, object)
           response.status      = 201

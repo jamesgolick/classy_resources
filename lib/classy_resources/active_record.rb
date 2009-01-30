@@ -1,19 +1,11 @@
 module ClassyResources
   module ActiveRecord
-    def load_shallow_collection(resource)
+    def load_collection(resource)
       class_for(resource).all
     end
 
-    def load_nested_collection(resource, parent)
-      load_parent_object(parent).send(resource)
-    end
-
-    def create_shallow_object(resource, params)
-      class_for(resource).create!(params)
-    end
-
-    def create_nested_object(resource, params, parent)
-      load_parent_object(parent).send(resource).create!(params)
+    def create_object(resource, object_params)
+      class_for(resource).create!(object_params)
     end
 
     def load_object(resource, id)
