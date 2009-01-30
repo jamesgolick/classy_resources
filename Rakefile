@@ -24,7 +24,7 @@ end
 
 Rake::TestTask.new(:sequel) do |t|
   t.libs << 'lib'
-  t.pattern = 'test/sequel_test.rb'
+  t.pattern = 'test/**/sequel*_test.rb'
   t.verbose = false
 end
 
