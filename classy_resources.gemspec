@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{classy_resources}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Golick"]
-  s.date = %q{2009-01-29}
+  s.date = %q{2009-01-30}
   s.description = %q{TODO}
   s.email = %q{james@giraffesoft.ca}
-  s.files = ["README.rdoc", "VERSION.yml", "lib/classy_resources", "lib/classy_resources/active_record.rb", "lib/classy_resources/mime_type.rb", "lib/classy_resources/post_body_param_parsing.rb", "lib/classy_resources/post_body_params.rb", "lib/classy_resources/sequel.rb", "lib/classy_resources.rb", "test/active_record_test.rb", "test/fixtures", "test/fixtures/active_record_test_app.rb", "test/fixtures/sequel_test_app.rb", "test/sequel_test.rb", "test/test_helper.rb"]
+  s.files = ["README.rdoc", "VERSION.yml", "lib/classy_resources", "lib/classy_resources/active_record.rb", "lib/classy_resources/mime_type.rb", "lib/classy_resources/post_body_param_parsing.rb", "lib/classy_resources/post_body_params.rb", "lib/classy_resources/sequel.rb", "lib/classy_resources/sequel_errors_to_xml.rb", "lib/classy_resources.rb", "test/active_record_test.rb", "test/fixtures", "test/fixtures/active_record_test_app.rb", "test/fixtures/sequel_test_app.rb", "test/sequel_errors_to_xml_test.rb", "test/sequel_test.rb", "test/test_helper.rb"]
   s.homepage = %q{http://github.com/giraffesoft/classy_resources}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
