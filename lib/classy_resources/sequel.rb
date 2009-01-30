@@ -1,3 +1,5 @@
+require 'classy_resources/sequel_errors_to_xml'
+
 module ClassyResources
   module Sequel
     class ResourceNotFound < RuntimeError; end

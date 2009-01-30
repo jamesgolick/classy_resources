@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
-require 'classy_resources/sequel'
 require 'sequel'
+require 'classy_resources/sequel'
 
 Sequel::Model.db = Sequel.sqlite
 
