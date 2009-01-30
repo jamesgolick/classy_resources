@@ -95,7 +95,14 @@ module ClassyResources
           set_content_type(format)
           object = load_object(resource, params[:id])
           update_object(object, params[resource.to_s.singularize])
-          serialize(object, format)
+
+          if object.valid?
+            object.save
+            serialize(object, format)
+          else
+            response.status = 422
+            serialize(object.errors, format)
+          end
         end
       end
 

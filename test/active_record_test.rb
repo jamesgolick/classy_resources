@@ -87,6 +87,21 @@ class ActiveRecordTest < Test::Unit::TestCase
     end
   end
 
+  context "on PUT to /posts/id with invalid params" do
+    setup do
+      @post = create_post
+      put "/posts/#{@post.id}.xml", :post => {:title => ""}
+    end
+
+    expect { assert_equal 422, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal Post.create.errors.to_xml, @response.body }
+
+    should "not update the post" do
+      assert_not_equal "", @post.reload.title
+    end
+  end
+
   context "on PUT to /posts/id with a missing post" do
     setup do
       put "/posts/missing.xml", :post => {:title => "Changed!"}
