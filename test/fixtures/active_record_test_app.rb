@@ -35,8 +35,7 @@ define_resource :posts, :collection => [:get, :post],
                         :member     => [:get, :put, :delete],
                         :formats    => [:xml, :json]
 
-define_resource :comments, :collection => [:get, :post],
-                           :parent     => :posts
+define_resource :comments, :collection => [:get, :post]
 
 use ClassyResources::PostBodyParams
 

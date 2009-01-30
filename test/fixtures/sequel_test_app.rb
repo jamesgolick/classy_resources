@@ -32,5 +32,4 @@ set :raise_errors, false
 define_resource :users, :collection => [:get, :post],
                         :member     => [:put, :delete, :get]
 
-define_resource :subscriptions, :collection => [:get, :post],
-                                :parent     => :users
+define_resource :subscriptions, :collection => [:get, :post]

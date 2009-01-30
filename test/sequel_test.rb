@@ -103,38 +103,4 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert @response.body.empty? }
   end
-
-  context "on GET to /users/id/comments" do
-    setup do
-      @user = create_user
-      2.times { @user.add_subscription(Subscription.new(hash_for_subscription)) }
-      2.times { create_subscription(:user_id => 9) }
-      get "/users/#{@user.id}/subscriptions.xml"
-    end
-
-    expect { assert_equal 200, @response.status }
-    expect { assert_equal "application/xml", @response.content_type }
-    expect { assert_equal @user.subscriptions.to_xml, @response.body }
-  end
-
-  context "on POST to /users/id/subscriptions" do
-    setup do
-      @user = create_user
-      post "/users/#{@user.id}/subscriptions.xml", :subscription => hash_for_subscription
-    end
-
-    expect { assert_equal 201, @response.status }
-    expect { assert_equal "application/xml", @response.content_type }
-    expect { assert_equal "/subscriptions/#{@user.reload.subscriptions.first.id}.xml", @response.location }
-    expect { assert_equal 1, @user.reload.subscriptions.length }
-  end
-
-  context "on POST to /users/id/subscriptions with no params" do
-    should "not raise" do
-      @user = create_user
-      assert_nothing_raised {
-        post "/users/#{@user.id}/subscriptions.xml", :subscription => {}
-      }
-    end
-  end
 end
