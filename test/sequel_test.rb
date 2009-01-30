@@ -103,4 +103,18 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
     expect { assert @response.body.empty? }
   end
+
+  context "on POST to /subscriptions with invalid params" do
+    setup do
+      Subscription.destroy_all
+      @subscription = Subscription.new
+      @subscription.valid?
+      post "/subscriptions.xml", :subscription => {}
+    end
+
+    expect { assert_equal 422, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal 0, Subscription.count }
+    expect { assert_equal @subscription.errors.to_xml, @response.body }
+  end
 end

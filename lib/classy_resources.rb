@@ -67,11 +67,18 @@ module ClassyResources
       def define_collection_post(resource, format)
         post collection_url_for(resource, format) do
           set_content_type(format)
-          object = create_object(resource, params[resource.to_s.singularize] || {})
+          object = build_object(resource, params[resource.to_s.singularize] || {})
 
-          response['location'] = object_url_for(resource, format, object)
-          response.status      = 201
-          serialize(object, format)
+          if object.valid?
+            object.save
+
+            response['location'] = object_url_for(resource, format, object)
+            response.status      = 201
+            serialize(object, format)
+          else
+            response.status      = 422
+            serialize(object.errors, format)
+          end
         end
       end
 
