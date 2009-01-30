@@ -1,5 +1,7 @@
 module ClassyResources
   module Sequel
+    class ResourceNotFound < RuntimeError; end
+
     def load_shallow_collection(resource)
       class_for(resource).all
     end
@@ -18,7 +20,9 @@ module ClassyResources
     end
 
     def load_object(resource, id)
-      class_for(resource).find(:id => id)
+      r = class_for(resource).find(:id => id)
+      raise ResourceNotFound if r.nil?
+      r
     end
 
     def update_object(object, params)
@@ -27,6 +31,10 @@ module ClassyResources
 
     def destroy_object(object)
       object.destroy
+    end
+
+    error ResourceNotFound do
+      response.status = 404
     end
   end
 end

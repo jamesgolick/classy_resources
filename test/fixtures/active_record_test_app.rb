@@ -29,6 +29,7 @@ class Comment < ActiveRecord::Base
   belongs_to :post
 end
 
+set :raise_errors, false
 
 define_resource :posts, :collection => [:get, :post],
                         :member     => [:get, :put, :delete],

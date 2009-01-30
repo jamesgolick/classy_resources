@@ -45,6 +45,16 @@ class SequelTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
   end
 
+  context "on GET to /users/id with a missing user" do
+    setup do
+      get "/users/missing.xml"
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert @response.body.empty? }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
+
   context "on PUT to /users/id" do
     setup do
       @user = create_user
@@ -60,6 +70,16 @@ class SequelTest < Test::Unit::TestCase
     end
   end
 
+  context "on PUT to /users/id with a missing user" do
+    setup do
+      put "/users/missing.xml", :user => {:name => "Changed!"}
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert @response.body.empty? }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
+
   context "on DELETE to /users/id" do
     setup do
       @user = create_user
@@ -72,6 +92,16 @@ class SequelTest < Test::Unit::TestCase
     should "destroy the user" do
       assert_nil User.find(:id => @user.id)
     end
+  end
+
+  context "on DELETE to /users/id with a missing user" do
+    setup do
+      delete "/users/missing.xml"
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert @response.body.empty? }
   end
 
   context "on GET to /users/id/comments" do

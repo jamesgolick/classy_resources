@@ -28,8 +28,6 @@ module ClassyResources
       object.destroy
     end
 
-    set :raise_errors, false
-
     error ::ActiveRecord::RecordNotFound do
       response.status = 404
     end

@@ -27,6 +27,8 @@ class Subscription < Sequel::Model(:subscriptions)
   validates_presence_of :user_id
 end
 
+set :raise_errors, false
+
 define_resource :users, :collection => [:get, :post],
                         :member     => [:put, :delete, :get]
 
