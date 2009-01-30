@@ -8,7 +8,7 @@ require 'mocha'
 class Test::Unit::TestCase
   protected
     def create_post(opts = {})
-      Post.create!({}.merge(opts))
+      Post.create!({:title => 'awesome'}.merge(opts))
     end
 
     def hash_for_comment(opts = {})

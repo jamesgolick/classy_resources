@@ -39,6 +39,18 @@ class ActiveRecordTest < Test::Unit::TestCase
     expect { assert_equal Post.first.to_xml, @response.body }
   end
 
+  context "on POST to /posts with invalid params" do
+    setup do
+      Post.destroy_all
+      post '/posts.xml', :post => {}
+    end
+
+    expect { assert_equal 422, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert_equal Post.create.errors.to_xml, @response.body }
+    expect { assert_equal 0, Post.count }
+  end
+
   context "on GET to /posts/id" do
     setup do
       @post = create_post

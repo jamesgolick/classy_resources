@@ -4,8 +4,8 @@ module ClassyResources
       class_for(resource).all
     end
 
-    def create_object(resource, object_params)
-      class_for(resource).create!(object_params)
+    def build_object(resource, object_params)
+      class_for(resource).new(object_params)
     end
 
     def load_object(resource, id)
