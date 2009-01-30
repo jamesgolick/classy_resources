@@ -20,7 +20,7 @@ class Test::Unit::TestCase
     end
 
     def create_user(opts = {})
-      u = User.new({}.merge(opts))
+      u = User.new({:name => 'james'}.merge(opts))
       u.save
       u
     end

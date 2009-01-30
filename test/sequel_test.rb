@@ -70,6 +70,23 @@ class SequelTest < Test::Unit::TestCase
     end
   end
 
+  context "on PUT to /users/id with invalid params" do
+    setup do
+      @user = create_user
+      put "/users/#{@user.id}.xml", :user => {:name => ""}
+      @invalid_user = User.new
+      @invalid_user.valid?
+    end
+
+    expect { assert_equal 422, @response.status }
+    expect { assert_equal @invalid_user.errors.to_xml, @response.body }
+    expect { assert_equal "application/xml", @response.content_type }
+
+    should "not update the user" do
+      assert_not_equal "Changed!", @user.reload.name
+    end
+  end
+
   context "on PUT to /users/id with a missing user" do
     setup do
       put "/users/missing.xml", :user => {:name => "Changed!"}

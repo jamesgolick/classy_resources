@@ -20,6 +20,7 @@ end
 
 class User < Sequel::Model(:users)
   one_to_many :subscriptions
+  validates_presence_of :name
 end
 
 class Subscription < Sequel::Model(:subscriptions)

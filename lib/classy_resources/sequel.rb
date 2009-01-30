@@ -19,7 +19,7 @@ module ClassyResources
     end
 
     def update_object(object, params)
-      object.update(params)
+      object.set params
     end
 
     def destroy_object(object)
