@@ -1,7 +1,7 @@
 require 'rubygems'
+require 'activerecord'
 require 'sinatra'
 require 'classy_resources/active_record'
-require 'activerecord'
 
 ActiveRecord::Base.configurations = {'sqlite3' => {:adapter  => 'sqlite3', 
                                                    :database => ':memory:'}}

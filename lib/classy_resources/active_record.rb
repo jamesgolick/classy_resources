@@ -27,6 +27,12 @@ module ClassyResources
     def destroy_object(object)
       object.destroy
     end
+
+    set :raise_errors, false
+
+    error ::ActiveRecord::RecordNotFound do
+      response.status = 404
+    end
   end
 end
 

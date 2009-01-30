@@ -50,6 +50,16 @@ class ActiveRecordTest < Test::Unit::TestCase
     expect { assert_equal "application/xml", @response.content_type }
   end
 
+  context "on GET to /posts/id with a missing post" do
+    setup do
+      get "/posts/doesntexist.xml"
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert @response.body.empty? }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
+
   context "on PUT to /posts/id" do
     setup do
       @post = create_post
@@ -65,6 +75,16 @@ class ActiveRecordTest < Test::Unit::TestCase
     end
   end
 
+  context "on PUT to /posts/id with a missing post" do
+    setup do
+      put "/posts/missing.xml", :post => {:title => "Changed!"}
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert @response.body.empty? }
+    expect { assert_equal "application/xml", @response.content_type }
+  end
+
   context "on DELETE to /posts/id" do
     setup do
       @post = create_post
@@ -77,6 +97,16 @@ class ActiveRecordTest < Test::Unit::TestCase
     should "destroy the post" do
       assert_nil Post.find_by_id(@post)
     end
+  end
+
+  context "on DELETE to /posts/id with a missing post" do
+    setup do
+      delete "/posts/missing.xml"
+    end
+
+    expect { assert_equal 404, @response.status }
+    expect { assert_equal "application/xml", @response.content_type }
+    expect { assert @response.body.empty? }
   end
 
   context "on GET to /posts/id/comments" do
