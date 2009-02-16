@@ -1,5 +1,6 @@
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
+require 'active_support'
 require 'classy_resources/mime_type'
 require 'classy_resources/post_body_params'
 
