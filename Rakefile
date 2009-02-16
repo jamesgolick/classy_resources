@@ -6,11 +6,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
     s.name = "classy_resources"
-    s.summary = "TODO"
+    s.summary = "Instant ActiveResource compatible resources. Think resource_controller, for sinatra."
     s.email = "james@giraffesoft.ca"
     s.homepage = "http://github.com/giraffesoft/classy_resources"
     s.description = "TODO"
     s.authors = ["James Golick"]
+    s.add_dependency "activesupport", "2.2.2"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
