@@ -12,6 +12,7 @@ begin
     s.description = "TODO"
     s.authors = ["James Golick"]
     s.add_dependency "activesupport", "2.2.2"
+    s.add_dependency "sinatra-sinatra", "~>0.9.0.4"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
