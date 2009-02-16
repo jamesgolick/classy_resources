@@ -1,4 +1,5 @@
 require 'rubygems'
+gem 'activerecord', '2.2.2'
 require 'activerecord'
 require 'sinatra'
 require 'classy_resources/active_record'
