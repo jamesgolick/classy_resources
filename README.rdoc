@@ -1,5 +1,7 @@
 = Classy Resources
 
+With a simple, declarative syntax, you can create active_resource compatible REST APIs incredibly quickly. 
+
 Think resource_controller, except for Sinatra.
 
 = Installation
@@ -28,6 +30,28 @@ The above declaration will create the five actions specified, each responding to
   - DELETE /resources/1.format # => destroy
 
 Since ClassyResources was designed to be active resource compatible, the params formats and return values are what AR expects.
+
+= Overrides
+
+In the above example, :posts would map to a Post class. If your class is named differently, you just override class_for. For example, if your Post class was stored in a module:
+  
+  def class_for(resource)
+    MyModule.const_get(resource.to_s.singularize.classify.constantize)
+  end
+    
+Or, if you wanted to change how objects were being serialized:
+
+  def serialize(object, format)
+    MySerializer.new(object, format).to_s
+  end
+
+Other method signatures you might want to override:
+  
+  - def load_collection(resource)
+  - def build_object(resource, params)
+  - def load_object(resource, id)
+  - def update_object(object, params) # Note that this doesn't save. It just changes the attributes.
+  - def destroy_object(object)
 
 == Copyright
 
